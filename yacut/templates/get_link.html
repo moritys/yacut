@@ -58,8 +58,8 @@
                   <h5 class="text-center">
                     {{ message }}
                     {% if category == 'success' %}
-                      <a href="{{ url_for('redirect_to_long_link', link=urlmap.short_link, _external=True) }}">
-                        {{ url_for('redirect_to_long_link', link=urlmap.short_link, _external=True) }}
+                      <a href="{{ url_for('redirect_to_long_link', link=urlmap.short, _external=True) }}">
+                        {{ url_for('redirect_to_long_link', link=urlmap.short, _external=True) }}
                       </a>
                     {% endif %}
                   </h5>

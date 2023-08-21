@@ -22,17 +22,17 @@ def index_view():
         if not short_link:
             short_link = get_random_link()
             exist_obj = URLMap.query.filter_by(
-                short_link=short_link).first()
+                short=short_link).first()
             while exist_obj is not None:
                 short_link = get_random_link()
 
-        if URLMap.query.filter_by(short_link=short_link).first() is not None:
+        if URLMap.query.filter_by(short=short_link).first() is not None:
             flash('Такая короткая ссылка уже существует!', 'warning')
             return render_template('get_link.html', form=form)
 
         urlmap = URLMap(
-            original_link=form.original_link.data,
-            short_link=short_link
+            original=form.original_link.data,
+            short=short_link
         )
         db.session.add(urlmap)
         db.session.commit()
@@ -44,7 +44,7 @@ def index_view():
 
 @app.route('/<string:link>/')
 def redirect_to_long_link(link):
-    urlmap = URLMap.query.filter_by(short_link=link).first()
+    urlmap = URLMap.query.filter_by(short=link).first()
     if not urlmap:
         abort(404)
-    return redirect(urlmap.original_link)
+    return redirect(urlmap.original)
