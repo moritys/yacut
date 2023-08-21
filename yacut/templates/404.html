@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<main>
+  <section class="container my-5">
+    <div class="row">
+      <div class="col-12 col-lg-7 my-5">
+        <h1 class="mb-5">😿!</h1>
+        <p>Если тут что-то было, теперь этого тут нет.</p>
+        <div class="col-12 col-lg-5">
+          <img class="img-fluid mx-auto d-block" src="https://httpcats.com/404.jpg" alt="" />
+        </div>
+        <p>
+          <a href="{{ url_for('index_view') }}">Вернуться на главную</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
