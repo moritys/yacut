@@ -20,7 +20,7 @@ class LinkForm(FlaskForm):
         'Ваш вариант короткой ссылки (необязательно)',
         validators=[
             Length(
-                5, 16,
+                1, 16,
                 message='* Длина короткой ссылки должна быть от 5 до 16 символов'
             ),
             AlphaNumeric(
