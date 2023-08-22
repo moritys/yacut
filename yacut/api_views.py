@@ -22,7 +22,7 @@ def add_urlmap():
     if 'url' not in data:
         raise InvalidAPIUsage('"url" является обязательным полем!')
 
-    if 'custom_id' not in data:
+    if 'custom_id' not in data or data['custom_id'] == '':
         data['custom_id'] = get_unique_short_id()
     if (
         6 > len(data['custom_id']) > 16 or
