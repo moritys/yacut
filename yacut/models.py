@@ -3,6 +3,12 @@ from datetime import datetime
 from . import db
 
 
+API_TO_MODEL = {
+    'url': 'original',
+    'custom_id': 'short'
+}
+
+
 class URLMap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     original = db.Column(db.String, nullable=False)
@@ -11,10 +17,16 @@ class URLMap(db.Model):
 
     def to_dict(self):
         return dict(
-            original=self.original
+            url=self.original,
+            short_link=self.short
+        )
+
+    def to_dict_only_url(self):
+        return dict(
+            url=self.original
         )
 
     def from_dict(self, data):
-        for field in ['original', 'short']:
+        for field in API_TO_MODEL.keys():
             if field in data:
-                setattr(self, field, data[field])
+                setattr(self, API_TO_MODEL[field], data[field])

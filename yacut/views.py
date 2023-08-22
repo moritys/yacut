@@ -8,8 +8,11 @@ from .forms import LinkForm
 from .models import URLMap
 
 
-def get_random_link(size=6, chars=string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
+def get_unique_short_id(size=6, chars=string.ascii_lowercase + string.digits):
+    random_link = ''.join(random.choice(chars) for _ in range(size))
+    if URLMap.query.filter_by(short=random_link).first() is not None:
+        get_unique_short_id()
+    return random_link
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -20,11 +23,7 @@ def index_view():
         short_link = form.custom_id.data
 
         if not short_link:
-            short_link = get_random_link()
-            exist_obj = URLMap.query.filter_by(
-                short=short_link).first()
-            while exist_obj is not None:
-                short_link = get_random_link()
+            short_link = get_unique_short_id()
 
         if URLMap.query.filter_by(short=short_link).first() is not None:
             flash('Такая короткая ссылка уже существует!', 'warning')
