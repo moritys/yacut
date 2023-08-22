@@ -25,7 +25,7 @@ def add_urlmap():
     if 'custom_id' not in data or data['custom_id'] == '':
         data['custom_id'] = get_unique_short_id()
     if (
-        1 > len(data['custom_id']) > 16 or
+        len(data['custom_id']) > 16 or
         data['custom_id'].isalnum() is False
     ):
         raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки')
