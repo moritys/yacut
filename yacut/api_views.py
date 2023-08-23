@@ -9,6 +9,7 @@ from .views import get_unique_short_id
 
 ALLOWED_SYMBOLS = ascii_lowercase + digits
 
+
 def check_correct_link(link):
     if len(link) > 16:
         raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки')
@@ -36,7 +37,7 @@ def add_urlmap():
 
     if (
         'custom_id' not in data or
-        data['custom_id'] == ''  or
+        data['custom_id'] == '' or
         data['custom_id'] is None
     ):
         data['custom_id'] = get_unique_short_id()
