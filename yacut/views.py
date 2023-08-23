@@ -1,7 +1,7 @@
 import random
 import string
 
-from flask import abort, flash, redirect, render_template
+from flask import abort, flash, redirect, render_template, url_for
 
 from . import app, db
 from .forms import LinkForm
@@ -26,8 +26,8 @@ def index_view():
             short_link = get_unique_short_id()
 
         if URLMap.query.filter_by(short=short_link).first() is not None:
-            flash('Такая короткая ссылка уже существует!', 'warning')
-            return render_template('get_link.html', form=form)
+            flash(f'Имя {short_link} уже занято!', 'warning')
+            return render_template('index.html', form=form)
 
         urlmap = URLMap(
             original=form.original_link.data,
@@ -36,14 +36,17 @@ def index_view():
         db.session.add(urlmap)
         db.session.commit()
         flash('Ваша ссылка готова: ', 'success')
-        return render_template('get_link.html', form=form, urlmap=urlmap)
+        return render_template(
+            'index.html', form=form,
+            result_url=url_for('index_view', _external=True) + urlmap.short
+        )
 
-    return render_template('get_link.html', form=form)
+    return render_template('index.html', form=form)
 
 
-@app.route('/<string:link>/')
-def redirect_to_long_link(link):
-    urlmap = URLMap.query.filter_by(short=link).first()
-    if not urlmap:
-        abort(404)
-    return redirect(urlmap.original)
+@app.route('/<short_id>', methods=['GET'])
+def redirect_to_long_link(short_id):
+    urlmap = URLMap.query.filter_by(short=short_id).first()
+    if urlmap:
+        return redirect(urlmap.original)
+    abort(404)

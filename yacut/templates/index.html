@@ -58,9 +58,10 @@
                   <h5 class="text-center">
                     {{ message }}
                     {% if category == 'success' %}
-                      <a href="{{ url_for('redirect_to_long_link', link=urlmap.short, _external=True) }}">
-                        {{ url_for('redirect_to_long_link', link=urlmap.short, _external=True) }}
-                      </a>
+                      {% if result_url %}
+                        Ваша новая ссылка готова:
+                        <a href="{{ result_url }}">{{ result_url }}</a>
+                      {% endif %}
                     {% endif %}
                   </h5>
                   </p>
