@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from . import db
+from .constants import DOMAIN_PART
 
 
 API_TO_MODEL = {
@@ -18,7 +19,7 @@ class URLMap(db.Model):
     def to_dict(self):
         return dict(
             url=self.original,
-            short_link='http://localhost/' + self.short
+            short_link=DOMAIN_PART + self.short
         )
 
     def to_dict_only_url(self):

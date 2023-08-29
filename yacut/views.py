@@ -10,8 +10,8 @@ from .models import URLMap
 
 def get_unique_short_id(size=6, chars=string.ascii_lowercase + string.digits):
     random_link = ''.join(random.choice(chars) for _ in range(size))
-    if URLMap.query.filter_by(short=random_link).first() is not None:
-        get_unique_short_id()
+    while URLMap.query.filter_by(short=random_link).first() is not None:
+        random_link = ''.join(random.choice(chars) for _ in range(size))
     return random_link
 
 
